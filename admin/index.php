@@ -1,50 +1,24 @@
 <?php
     session_start();
-    //Database Configuration File
-    include('includes/config.php');
-
-    $error = '';
-    $validate = '';
-    
-    if( isset($_POST['login']) ){
-            
-		$username = stripslashes($_POST['username']);
-		$username = mysqli_real_escape_string($con, $username);
-		$password = stripslashes($_POST['password']);
-		$password = mysqli_real_escape_string($con, $password);
-					
-		if(!empty(trim($username)) && !empty(trim($password))){
-
-			$query      = "SELECT * FROM tbladmin WHERE AdminUserName = '$username'";
-			$result     = mysqli_query($con, $query);
-			$rows       = mysqli_num_rows($result);
-			$row        = mysqli_fetch_array($result);
-			$_SESSION["username"]=$row["username"];
-
-			if ($row != 0) {
-				//langsung verify
-				if ($_SESSION["username"]=$row["username"]=='admin' AND $password==$row["password"]){
-					header("Location:dashboard.php");
-
-				}else { ?>
-					<script language="JavaScript">
-						alert('Nama Pengguna dan Kata Sandi salah. Silakan coba lagi!');
-						document.location='login.php';
-					</script>
-				<?php }
-						
-			} else { 
-				$error =  'Login Gagal !!';
-			}
-			
-		} else { ?>
-			<script language="JavaScript">
-				alert('Data tidak boleh kosong!!');
-				document.location='login.php';
-			</script>
-		<?php
-		}
-    }
+	//Database Configuration File
+	include('includes/config.php');
+	//error_reporting(0);
+	if(isset($_POST['login'])) {
+		// Getting username/ email and password
+		 $uname=$_POST['username'];
+		$password=md5($_POST['password']);
+		// Fetch data from database on the basis of username/email and password
+		$sql =mysqli_query($con,"SELECT AdminUserName,AdminPassword,userType FROM tbladmin WHERE (AdminUserName='$uname' && AdminPassword='$password')");
+		$num=mysqli_fetch_array($sql);
+		if($num>0) {
+			$_SESSION['login']=$_POST['username'];
+			$_SESSION['utype']=$num['userType'];
+			echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
+	  	} else {
+			echo "<script>alert('Invalid Details');</script>";
+	  	}
+	 
+	}
 ?>
 
 <!DOCTYPE html>
