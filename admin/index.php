@@ -15,7 +15,7 @@
 					
 		if(!empty(trim($username)) && !empty(trim($password))){
 
-			$query      = "SELECT * FROM tbladmin WHERE username = '$username'";
+			$query      = "SELECT * FROM tbladmin WHERE AdminUserName = '$username'";
 			$result     = mysqli_query($con, $query);
 			$rows       = mysqli_num_rows($result);
 			$row        = mysqli_fetch_array($result);
