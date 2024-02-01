@@ -11,6 +11,23 @@
             $catid=$_POST['category'];
             $subcatid=$_POST['subcategory'];
             $postdetails=$_POST['postdescription'];
+
+            // analisis 
+            $strings = array(
+                1 => $postdetails,
+            );
+
+            require_once __DIR__ . '/../analisis/autoload.php';
+            $sentiment = new \PHPInsight\Sentiment();
+
+            $i = 1;
+            foreach ($strings as $string) {
+                // calculations
+                $scores = $sentiment->score($string);
+                $i++;
+            }
+            // selesai analisis 
+
             $postedby=$_SESSION['login'];
             $arr = explode(" ",$posttitle);
             $url=implode("-",$arr);
@@ -30,7 +47,7 @@
                 move_uploaded_file($_FILES["postimage"]["tmp_name"],"postimages/".$imgnewfile);
 
                 $status=1;
-                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$postedby')");
+                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,SubCategoryId,PostDescription,PostAnalysis,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$subcatid','$postdetails','$scores','$url','$status','$imgnewfile','$postedby')");
                 if($query) {
                     $msg="Post successfully added ";
                 } else {
@@ -182,7 +199,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
