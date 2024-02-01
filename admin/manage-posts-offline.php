@@ -28,6 +28,7 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <!-- App title -->
         <title>Kelola Berita Offline</title>
+        <link rel="icon" type="image/x-icon" href="../asset/Logo.png">
 
         <!--Morris Chart CSS -->
 		<link rel="stylesheet" href="../plugins/morris/morris.css">

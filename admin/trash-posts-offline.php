@@ -33,7 +33,7 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <!-- App title -->
-        <title>Berita Offline Terhapus</title>
+        <title>Kelola Berita Offline</title>
         <link rel="icon" type="image/x-icon" href="../asset/Logo.png">
 
         <!--Morris Chart CSS -->
@@ -89,7 +89,7 @@
                                     <h4 class="page-title">Berita Offline Terhapus </h4>
                                     <ol class="breadcrumb p-0 m-0">
                                         <li>
-                                            <a href="#">Berita</a>
+                                            <a href="#">Admin</a>
                                         </li>
                                         <li>
                                             <a href="#">Berita Offline</a>
@@ -103,58 +103,54 @@
 							</div>
 						</div>
                         <!-- end row -->
-
+                        
                         <div class="row">
                             <div class="col-sm-6">  
                                 <?php if($delmsg){ ?>
                                 <div class="alert alert-danger" role="alert">
-                                    <strong>Oh snap!</strong> <?php echo htmlentities($delmsg);?></div>
-                                <?php } ?>
+                                    <strong>Oh snap!</strong> <?php echo htmlentities($delmsg);?>
                                 </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card-box">
-                                            <div class="table-responsive">
-                                                <table class="table table-colored table-centered table-inverse m-0">
-                                                    <thead>
-                                                        <tr>                                        
-                                                            <th>Judul Berita</th>
-                                                            <th>Kategori</th>
-                                                            <th>Aksi</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                        <?php
-                                                            $query=mysqli_query($con,"select tblposts_offline.id as postidoff,tblposts_offline.PostTitle as titleoff,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=0");
-                                                            $rowcount=mysqli_num_rows($query);
-                                                            if($rowcount==0)
-                                                            {
-                                                        ?>
+                                <?php } ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box">
+                                        <div class="table-responsive">
+                                            <table class="table table-colored table-centered table-inverse m-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Judul Berita</th>
+                                                        <th>Kategori</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=0");
+                                                        $rowcount=mysqli_num_rows($query);
+                                                        if($rowcount==0)
+                                                        {
+                                                    ?>
+                                                    <tr>
+                                                        <td colspan="4" align="center"><h3 style="color:red">Tidak Ada Berita</h3></td>
                                                         <tr>
-                                                            <td colspan="4" align="center"><h4 style="color:red">Tidak Ada Berita</h4></td>
+                                                            <?php 
+                                                                } else {
+                                                                while($row=mysqli_fetch_array($query))
+                                                                {
+                                                            ?>
                                                             <tr>
-                                                                <?php 
-                                                                    } else {
-                                                                    while($row=mysqli_fetch_array($query))
-                                                                    {
-                                                                ?>
-                                                                <tr>
-                                                                    <td><b><?php echo htmlentities($row['title']);?></b></td>
-                                                                    <td><?php echo htmlentities($row['category'])?></td>
-                                                                    <td>
-                                                                        <a href="trash-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=restore" onclick="return confirm('Do you really want to restore ?')"> <i class="ion-arrow-return-right" title="Restore this Post"></i></a>
-                                                                        &nbsp;
-                                                                        <a href="trash-posts-offline.php?presid=<?php echo htmlentities($row['postid']);?>&&action=perdel" onclick="return confirm('Do you really want to delete ?')"><i class="fa fa-trash-o" style="color: #f05050" title="Permanently delete this post"></i></a> 
-                                                                    </td>
-                                                                </tr>
-                                                                <?php } }?>
+                                                                <td><b><?php echo htmlentities($row['title']);?></b></td>
+                                                                <td><?php echo htmlentities($row['category'])?></td>
+                                                                <td>
+                                                                    <a href="trash-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=restore" onclick="return confirm('Do you really want to restore ?')"> <i class="ion-arrow-return-right" title="Restore this Post"></i></a>
+                                                                    &nbsp;
+                                                                    <a href="trash-posts-offline.php?presid=<?php echo htmlentities($row['postid']);?>&&action=perdel" onclick="return confirm('Do you really want to delete ?')"><i class="fa fa-trash-o" style="color: #f05050" title="Permanently delete this post"></i></a> 
+                                                                </td>
                                                             </tr>
-                                                        </tr>   
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                            <?php } }?>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -166,9 +162,7 @@
 
                 <?php include('includes/footer.php');?>
 
-            
             </div>
-
 
             <!-- ============================================================== -->
             <!-- End Right content here -->
@@ -177,7 +171,6 @@
 
         </div>
         <!-- END wrapper -->
-
 
 
         <script>

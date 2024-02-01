@@ -9,7 +9,6 @@
         if(isset($_POST['submit'])) {
             $posttitle=$_POST['posttitle'];
             $catid=$_POST['category'];
-            $subcatid=$_POST['subcategory'];
             $postdetails=$_POST['postdescription'];
             $postedby=$_SESSION['login'];
             $arr = explode(" ",$posttitle);
@@ -19,7 +18,6 @@
             $extension = substr($imgfile,strlen($imgfile)-4,strlen($imgfile));
             // allowed extensions
             $allowed_extensions = array(".jpg","jpeg",".png",".gif");
-            
             // Validation for allowed extensions .in_array() function searches an array for a specific value.
             if(!in_array($extension,$allowed_extensions)) {
                 echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
@@ -30,7 +28,7 @@
                 move_uploaded_file($_FILES["postimage"]["tmp_name"],"postimages/".$imgnewfile);
 
                 $status=1;
-                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$postedby')");
+                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,PostDetails,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$postdetails','$url','$status','$imgnewfile','$postedby')");
                 if($query) {
                     $msg="Post successfully added ";
                 } else {
@@ -39,7 +37,6 @@
             }
         }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -74,21 +71,19 @@
         <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
         <script src="assets/js/modernizr.min.js"></script>
-        
         <script>
             function getSubCat(val) {
-                $.ajax({
-                    type: "POST",
-                    url: "get_subcategory.php",
-                    data:'catid='+val,
-                    success: function(data){
-                        $("#subcategory").html(data);
-                    }
-                });
+            $.ajax({
+            type: "POST",
+            url: "get_subcategory.php",
+            data:'catid='+val,
+            success: function(data){
+                $("#subcategory").html(data);
+            }
+            });
             }
         </script>
     </head>
-
 
     <body class="fixed-left">
 
@@ -112,7 +107,7 @@
                         <div class="row">
 							<div class="col-xs-12">
 								<div class="page-title-box">
-                                    <h4 class="page-title">Tambah Berita Offline</h4>
+                                    <h4 class="page-title">Tambah Berita Offline </h4>
                                     <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
@@ -129,9 +124,9 @@
 							</div>
 						</div>
                         <!-- end row -->
-
+                        
                         <div class="row">
-                            <div class="col-sm-6">                  
+                            <div class="col-sm-6">  
                                 <!---Success Message--->  
                                 <?php if($msg){ ?>
                                 <div class="alert alert-success" role="alert">
@@ -157,11 +152,10 @@
                                                 <label for="exampleInputEmail1">Judul Berita</label>
                                                 <input type="text" class="form-control" id="posttitle" name="posttitle" placeholder="Enter title" required>
                                             </div>
-                                            
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Kategori</label>
                                                 <select class="form-control" name="category" id="category" onChange="getSubCat(this.value);" required>
-                                                    <option value="">Pilih Kategori </option>
+                                                    <option value="">Pilih Kategori</option>
                                                     <?php
                                                         // Feching active categories
                                                         $ret=mysqli_query($con,"select id,CategoryName from  tblcategory where Is_Active=1");
@@ -170,10 +164,8 @@
                                                     ?>
                                                     <option value="<?php echo htmlentities($result['id']);?>"><?php echo htmlentities($result['CategoryName']);?></option>
                                                     <?php } ?>
-
                                                 </select> 
                                             </div>
-                                            
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
@@ -182,7 +174,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
@@ -191,7 +182,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                             <button type="submit" name="submit" class="btn btn-success waves-effect waves-light">Save and Post</button>
                                             <button type="button" class="btn btn-danger waves-effect waves-light">Discard</button>
                                         </form>
@@ -204,10 +194,10 @@
                     </div> <!-- container -->
 
                 </div> <!-- content -->
-
+                
                 <?php include('includes/footer.php');?>
-
             </div>
+
 
             <!-- ============================================================== -->
             <!-- End Right content here -->
@@ -249,6 +239,7 @@
         <script src="assets/js/jquery.app.js"></script>
 
         <script>
+
             jQuery(document).ready(function(){
 
                 $('.summernote').summernote({
@@ -265,7 +256,6 @@
                 });
             });
         </script>
-        
         <script src="../plugins/switchery/switchery.min.js"></script>
 
         <!--Summernote js-->

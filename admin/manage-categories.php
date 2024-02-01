@@ -61,8 +61,6 @@
             <?php include('includes/leftsidebar.php');?>
             <!-- Left Sidebar End -->
 
-
-
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -70,8 +68,6 @@
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
-
-
                         <div class="row">
 							<div class="col-xs-12">
 								<div class="page-title-box">
