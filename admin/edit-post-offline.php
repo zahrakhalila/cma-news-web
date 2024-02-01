@@ -8,14 +8,13 @@
         if(isset($_POST['update'])) {
             $posttitle=$_POST['posttitle'];
             $catid=$_POST['category'];
-            $subcatid=$_POST['subcategory'];
             $postdetails=$_POST['postdescription'];
             $lastuptdby=$_SESSION['login'];
             $arr = explode(" ",$posttitle);
             $url=implode("-",$arr);
             $status=1;
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update tblposts set PostTitle='$posttitle',CategoryId='$catid',SubCategoryId='$subcatid',PostDetails='$postdetails',PostUrl='$url',Is_Active='$status',lastUpdatedBy='$lastuptdby' where id='$postid'");
+            $query=mysqli_query($con,"update tblposts_offline set PostTitle='$posttitle',CategoryId='$catid',PostDetails='$postdetails',PostUrl='$url',Is_Active='$status',lastUpdatedBy='$lastuptdby' where id='$postid'");
             
             if($query) {
                 $msg="Post updated ";
@@ -122,7 +121,7 @@
 
                         <?php
                             $postid=intval($_GET['pid']);
-                            $query=mysqli_query($con,"select tblposts.id as postid,tblposts.PostImage,tblposts.PostTitle as title,tblposts.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid,tblsubcategory.SubCategoryId as subcatid,tblsubcategory.Subcategory as subcategory from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join tblsubcategory on tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.id='$postid' and tblposts.Is_Active=1 ");
+                            $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostImage,tblposts_offline.PostTitle as title,tblposts_offline.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$postid' and tblposts_offline.Is_Active=1 ");
                             while($row=mysqli_fetch_array($query))
                             {
                         ?>
@@ -132,12 +131,12 @@
                                     <div class="">
                                         <form name="addpost" method="post">
                                             <div class="form-group m-b-20">
-                                                <label for="exampleInputEmail1">Post Title</label>
+                                                <label for="exampleInputEmail1">Judul Berita</label>
                                                 <input type="text" class="form-control" id="posttitle" value="<?php echo htmlentities($row['title']);?>" name="posttitle" placeholder="Enter title" required>
                                             </div>
 
                                             <div class="form-group m-b-20">
-                                                <label for="exampleInputEmail1">Category</label>
+                                                <label for="exampleInputEmail1">Kategori</label>
                                                 <select class="form-control" name="category" id="category" onChange="getSubCat(this.value);" required>
                                                     <option value="<?php echo htmlentities($row['catid']);?>"><?php echo htmlentities($row['category']);?></option>
                                                     <?php
@@ -150,18 +149,11 @@
                                                     <?php } ?>
                                                 </select> 
                                             </div>
-
-                                            <div class="form-group m-b-20">
-                                                <label for="exampleInputEmail1">Sub Category</label>
-                                                <select class="form-control" name="subcategory" id="subcategory" required>
-                                                    <option value="<?php echo htmlentities($row['subcatid']);?>"><?php echo htmlentities($row['subcategory']);?></option>
-                                                </select> 
-                                            </div>
                                             
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
-                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Post Details</b></h4>
+                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Deskripsi Berita</b></h4>
                                                         <textarea class="summernote" name="postdescription" required><?php echo htmlentities($row['PostDetails']);?></textarea>
                                                     </div>
                                                 </div>
@@ -170,10 +162,10 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
-                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Post Image</b></h4>
+                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
                                                         <img src="postimages/<?php echo htmlentities($row['PostImage']);?>" width="300"/>
                                                         <br />
-                                                        <a href="change-image.php?pid=<?php echo htmlentities($row['postid']);?>">Update Image</a>
+                                                        <a href="change-image.php?pid=<?php echo htmlentities($row['postid']);?>">Perbarui Gambar</a>
                                                     </div>
                                                 </div>
                                             </div>

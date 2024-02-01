@@ -62,7 +62,7 @@
                             $total_pages = ceil($total_rows / $no_of_records_per_page);
                         
                         
-                        $query=mysqli_query($con,"select tblposts_offline.id as pidoff,tblposts_offline.PostTitle as posttitleoff,tblposts_offline.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblposts_offline.PostDescriptions as postdescriptionsoff,tblposts_offline.PostingDate as postingdateoff,tblposts_offline.PostUrl as urloff from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 order by tblposts_offline.id desc  LIMIT $offset, $no_of_records_per_page");
+                        $query=mysqli_query($con,"select tblposts_offline.id as pid,tblposts_offline.PostTitle as posttitle,tblposts_offline.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblposts_offline.PostDetails as postdetails,tblposts_offline.PostingDate as postingdate,tblposts_offline.PostUrl as url from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 order by tblposts_offline.id desc  LIMIT $offset, $no_of_records_per_page");
                         while ($row=mysqli_fetch_array($query)) {
                     ?>
                     <div class="col-md-6">
@@ -116,7 +116,7 @@
                         $total_pages = ceil($total_rows / $no_of_records_per_page);
                     
                     
-                        $query=mysqli_query($con,"select tblposts_offline.id as pidoff,tblposts_offline.PostTitle as posttitleoff,tblposts_offline.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblposts_offline.PostDescriptions as postdescriptionsoff,tblposts_offline.PostingDate as postingdateoff,tblposts_offline.PostUrl as urloff from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 order by tblposts_offline.id desc  LIMIT $offset, $no_of_records_per_page");
+                        $query=mysqli_query($con,"select tblposts_offline.id as pid,tblposts_offline.PostTitle as posttitle,tblposts_offline.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblposts_offline.PostDetails as postdetails,tblposts_offline.PostingDate as postingdate,tblposts_offline.PostUrl as url from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 order by tblposts_offline.id desc  LIMIT $offset, $no_of_records_per_page");
                         while ($row=mysqli_fetch_array($query)) {
                     ?>
                     <div class="card mb-3">
@@ -130,8 +130,6 @@
                                         <p class="m-0">
                                             <!--category-->
                                             <a class="badge bg-success text-decoration-none link-light" href="category.php?catid=<?php echo htmlentities($row['cid'])?>" style="color:#fff"><?php echo htmlentities($row['category']);?></a>
-                                            <!--Subcategory--->
-                                            <a class="badge bg-warning text-decoration-none link-light" style="color:#fff"><?php echo htmlentities($row['subcategory']);?></a>
                                         </p>
                                         <p class="mb-2"><small> Posted on <?php echo htmlentities($row['postingdate']);?></small></p>
                                             <a href="news-details.php?nid=<?php echo htmlentities($row['pid'])?>" class="card-title text-decoration-none text-dark">
