@@ -71,18 +71,6 @@
         <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
         <script src="assets/js/modernizr.min.js"></script>
-        <script>
-            function getSubCat(val) {
-            $.ajax({
-            type: "POST",
-            url: "get_subcategory.php",
-            data:'catid='+val,
-            success: function(data){
-                $("#subcategory").html(data);
-            }
-            });
-            }
-        </script>
     </head>
 
     <body class="fixed-left">
