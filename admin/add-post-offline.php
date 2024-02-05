@@ -12,10 +12,6 @@
             $postdetails=$_POST['postdescription'];
 
             // analisis 
-            if (PHP_SAPI != 'cli') {
-                echo "<pre>";
-            }
-
             $strings = array(
                 1 => $_POST['postdescription'],
             );
@@ -29,19 +25,9 @@
                 $scores = $sentiment->score($string);
                 $class = $sentiment->categorise($string);
 
-                // output:
                 if (in_array("pos", $scores)) {
-                    echo "Got positif";
+                    $query=mysqli_query($con,"insert into tblposts_offline(PostAnalyze) values('$class')");
                 }
-
-                echo "\n\nHasil:";
-                echo "\nKalimat: <b>$string</b>\n";
-                echo "Arah sentimen: <b>$class</b>, nilai: ";
-                // var_dump($scores);
-                foreach ($scores as $skor) {
-                    echo $skor;
-                }
-                echo "\n\n";
                 $i++;
 
             }
