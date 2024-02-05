@@ -10,6 +10,33 @@
             $posttitle=$_POST['posttitle'];
             $catid=$_POST['category'];
             $postdetails=$_POST['postdescription'];
+
+            // analisis 
+            if (PHP_SAPI != 'cli') {
+                echo "<pre>";
+            }
+
+            $strings = array(
+                1 => $_POST['postdescription'],
+            );
+
+            require_once __DIR__ . '/../analisis/autoload.php';
+            $sentiment = new \PHPInsight\Sentiment();
+
+            $i = 1;
+            foreach ($strings as $string) {
+                // calculations:
+                $scores = $sentiment->score($string);
+                $class = $sentiment->categorise($string);
+
+                // output:
+                if (in_array("pos", $scores)) {
+                    echo "Got positif";
+                }
+
+            }
+            // selesai analisis 
+
             $postedby=$_SESSION['login'];
             $arr = explode(" ",$posttitle);
             $url=implode("-",$arr);
@@ -28,7 +55,7 @@
                 move_uploaded_file($_FILES["postimage"]["tmp_name"],"postimages/".$imgnewfile);
 
                 $status=1;
-                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,PostDetails,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$postdetails','$url','$status','$imgnewfile','$postedby')");
+                $query=mysqli_query($con,"insert into tblposts_offline(PostTitle,CategoryId,PostDetails,PostAnalyze,PostUrl,Is_Active,PostImage,postedBy) values('$posttitle','$catid','$postdetails','$scores','$url','$status','$imgnewfile','$postedby')");
                 if($query) {
                     $msg="Post successfully added ";
                 } else {

@@ -1,3 +1,3 @@
 <?php
-	header("location: ../admin/manage-post-offline.php");
+	header("location: ../admin/add-post-offline.php");
 ?>
