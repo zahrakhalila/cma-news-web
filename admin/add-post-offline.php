@@ -34,6 +34,16 @@
                     echo "Got positif";
                 }
 
+                echo "\n\nHasil:";
+                echo "\nKalimat: <b>$string</b>\n";
+                echo "Arah sentimen: <b>$class</b>, nilai: ";
+                // var_dump($scores);
+                foreach ($scores as $skor) {
+                    echo $skor;
+                }
+                echo "\n\n";
+                $i++;
+
             }
             // selesai analisis 
 
